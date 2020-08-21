@@ -88,8 +88,8 @@ class LoginForm(FlaskForm):
 
 nginx handles all the static files but leaves all the python work to gunicorn
 
-1. remove nginx default file `sudo rm /etc/sites-enabled/default`
-2. create your own file `sudo vim /etc/sites-enabled/your_filename`
+1. remove nginx default file `sudo rm /etc/nginx/sites-enabled/default`
+2. create your own file `sudo vim /etc/nginx/sites-enabled/your_filename`
 ```
 server {
     listen 80;

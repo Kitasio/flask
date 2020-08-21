@@ -108,7 +108,7 @@ server {
 ```
 3. restart the nginx server `sudo systemctl restart nginx`
 4. now gunicorn, check how many cores there is on your machine `nproc --all` to know the number of workers for gunicorn which is (2 * num_cores) + 1
-5. for gunicorn to run in the background we configure supervisor `sudo vim /etc/supervisor/conf.d/file_name.conf
+5. for gunicorn to run in the background we configure supervisor `sudo vim /etc/supervisor/conf.d/file_name.conf`
 ```
 [program:your_project_name]
 directory=/home/kit/project_dir

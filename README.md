@@ -80,4 +80,46 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Login')
 ```
 
+# Deployment
 
+`sudo apt install nginx`
+`pipenv install gunicorn`
+`sudo apt install supervisor`
+
+nginx handles all the static files but leaves all the python work to gunicorn
+
+1. remove nginx default file `sudo rm /etc/sites-enabled/default`
+2. create your own file `sudo vim /etc/sites-enabled/your_filename`
+```
+server {
+    listen 80;
+    server_name <ip address>;
+    
+    location /static {
+        alias /home/kit/flask_dir/static;
+    }
+    
+    location / {
+        proxy_pass http://localhost:8000;
+        include /etc/nginx/proxy_params;
+        proxy_redirect off;
+    }
+}
+```
+3. restart the nginx server `sudo systemctl restart nginx`
+4. now gunicorn, check how many cores there is on your machine `nproc --all` to know the number of workers for gunicorn which is (2 * num_cores) + 1
+5. for gunicorn to run in the background we configure supervisor `sudo vim /etc/supervisor/conf.d/file_name.conf
+```
+[program:your_project_name]
+directory=/home/kit/project_dir
+command=/home/kit/.local/share/virtualenvs/belarus-eYR9BXFo/bin/gunicorn -w 3 run:app
+user=kit
+autostart=true
+autorestart=true
+stopasgroup=true
+killasgroup=true
+stderr_logfile=/var/log/project_dir/project.err.log
+stdout_logfile=/var/log/project_dir/project.out.log
+```
+6. create that log files
+7. `sudo supervisorctl reload`

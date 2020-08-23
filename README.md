@@ -123,3 +123,5 @@ stdout_logfile=/var/log/project_dir/project.out.log
 ```
 6. create that log files
 7. `sudo supervisorctl reload`
+
+## Configure a firewall
